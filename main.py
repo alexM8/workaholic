@@ -15,10 +15,10 @@ def post():
     try:
         working_type = int(request.form['kind'])
     except:
-        sys.stderr.write("Working transformation fail. Will set to 0")
+        sys.stderr.write("Working value transformation fail. Will be set to 0\n")
         working_type = 0
     if working_type > 1 or working_type < 0:
-        sys.stderr.write("Working value out of bounds. Will set to 0")
+        sys.stderr.write("Working value out of bounds. Will be set to 0\n")
         working_type = 0
     sql = 'insert into workaholic (working, timestamp) values (%s, NOW())' % str(working_type)
     query = conn.execute(sql)
