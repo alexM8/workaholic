@@ -21,7 +21,12 @@ def post():
         sys.stderr.write("Working value out of bounds. Will be set to 0\n")
         working_type = 0
     conn.execute('insert into workaholic (working, timestamp) values (%s, NOW())' % str(working_type))
-    return Response("{'status':'ok'}", status=200, mimetype='application/json')
+    return Response("{'status':'ok', 'description':'none'}", status=200, mimetype='application/json')
+
+
+@app.route(location + "/data", methods=['GET'])
+def get():
+    return Response("{'status':'error', 'description':'Not implemented yet'}", status=405, mimetype='application/json')
 
 
 if __name__ == '__main__':
