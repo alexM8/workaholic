@@ -1,5 +1,5 @@
 from config import *
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_restful import Api
 from sqlalchemy import create_engine
 import sys
@@ -11,7 +11,7 @@ api = Api(app)
 
 @app.route(location + "/data", methods=['POST'])
 def post():
-    conn = db_connect.connect()  # connect to database
+    conn = db_connect.connect()
     try:
         working_type = int(request.form['kind'])
     except:
@@ -20,12 +20,8 @@ def post():
     if working_type > 1 or working_type < 0:
         sys.stderr.write("Working value out of bounds. Will be set to 0\n")
         working_type = 0
-    sql = 'insert into workaholic (working, timestamp) values (%s, NOW())' % str(working_type)
-    query = conn.execute(sql)
-    if query:
-        return 'ok'
-    else:
-        return 'not ok'
+    conn.execute('insert into workaholic (working, timestamp) values (%s, NOW())' % str(working_type))
+    return Response("{'status':'ok'}", status=200, mimetype='application/json')
 
 
 if __name__ == '__main__':
